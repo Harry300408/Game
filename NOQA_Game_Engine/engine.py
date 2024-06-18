@@ -1,5 +1,6 @@
 import pygame, sys, os
-from .level import *; from .mouse import *; from .debug import *; from .CONSTANTS import *; from .pyvidplayer import *; from .functions.getfont import *; from .mainmenu.mainmenu import *
+from .level import *; from .mouse import *; from .debug import *; from .CONSTANTS import *; from .pyvidplayer import *; from .functions.getfont import *
+from .mainmenu.mainmenu import *
 
 class Engine(): ## NO-QA SUB-ENGINE
     def __init__(self):
@@ -11,6 +12,7 @@ class Engine(): ## NO-QA SUB-ENGINE
         self.display = pygame.display.get_surface()
         pygame.display.set_caption("The Apocalyptic Nomad")
         pygame.display.set_icon(pygame.image.load("././gfx/icon.png"))
+        pygame.event.set_grab(True)
         
         self.HINT_TEXT = get_px1_font(20).render("Click To Go To Main Menu", True, "white")
         self.HINT_TEXT_RECT = self.HINT_TEXT.get_rect(bottomright=( SWthHgh[0], SWthHgh[1]))
@@ -23,8 +25,6 @@ class Engine(): ## NO-QA SUB-ENGINE
         self.video.set_size(SWthHgh)
         self.is_playing = True
         self.intro()
-    
-        
     
     def intro(self):
         while self.is_playing:
@@ -51,9 +51,10 @@ class Engine(): ## NO-QA SUB-ENGINE
             self.screen.fill("black")
             self.clock.tick(SFPS)
             self.fps = self.clock.get_fps()
-            self.level.update()
+                
+            self.level.update() 
         
-            debug(str(round(self.fps)))
+            debug(str(round(self.fps)) + "\n" + str(self.level.player.rect.x) + "," + str(self.level.player.rect.y) + "\n" + str(self.level.player.speed))
             
             if self.fps > self.oldfps:
                 self.oldfps = self.fps

@@ -10,8 +10,15 @@ from .button import *
 class MainMenu():
     def __init__(self):
         self.in_menu = True
-        self.MENU_TXT = get_px2_font(100).render("THE APOCALYPTIC NOMAD", True, "white")
+        self.MENU_TXT = get_px2_font(100).render("THE APOCALYPTIC NOMAD", True, "white").convert_alpha()
         self.MENU_TXT_RECT = self.MENU_TXT.get_rect(center = (SWthHgh[0] / 2, 100))
+        
+        
+        self.VER_TXT = get_px1_font(20).render("v0.0.1", True, "white").convert_alpha()
+        self.VER_TXT_RECT = self.VER_TXT.get_rect(bottomright = SWthHgh)
+        
+        self.CREDITS_TXT = get_px1_font(15).render(" Music by Aron HS\n Main Development by Harry Adams", True, "white").convert_alpha()
+        self.CREDITS_TXT_RECT = self.CREDITS_TXT.get_rect(bottomleft= (0, SWthHgh[1]))
         
         pygame.mixer.music.load("./././" + MM_Music)
         self.firecrackle = pygame.mixer.Sound("./././" + MM_FireCracks)
@@ -65,7 +72,9 @@ class MainMenu():
         self.screen.blits([
                            (self.vignette, self.vignette_rect),
                            (self.campfire_img, self.campfire_rect),
-                           (self.MENU_TXT, self.MENU_TXT_RECT)
+                           (self.MENU_TXT, self.MENU_TXT_RECT),
+                           (self.CREDITS_TXT, self.CREDITS_TXT_RECT),
+                           (self.VER_TXT, self.VER_TXT_RECT)
                            ])
         
         for i in [self.play_button, self.settings_button, self.quit_button]:

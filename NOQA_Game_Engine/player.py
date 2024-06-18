@@ -2,14 +2,14 @@ import pygame, sys, os
 from .CONSTANTS import *
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, groups, pos = (500,500) ) -> None:
+    def __init__(self, groups, pos) -> None:
         super().__init__(groups)
         self.pos = pos
         
         self.screen = pygame.display.get_surface()
         
-        self.image = pygame.image.load("././gfx/player/test.png")
-        self.rect = self.image.get_rect(topleft = self.pos)
+        self.image = pygame.image.load("././gfx/player/test.png").convert_alpha()
+        self.rect = self.image.get_rect(center = self.pos)
         self.hitbox = self.rect.inflate(0, -26)
 
         self.clock = pygame.time.Clock()
@@ -28,18 +28,20 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         jkeys = pygame.key.get_just_pressed()
         self.dt = self.clock.tick(SFPS)
-        
+        self.speed = 0.5
+        self.speed *= self.dt
+            
         if keys[pygame.K_w]:    
-            self.rect.y -= self.speed * self.dt
+            self.rect.y -= int(self.speed)
         elif keys[pygame.K_s]:    
-            self.rect.y += self.speed * self.dt
+            self.rect.y += int(self.speed)
         else:
             pass
             
         if keys[pygame.K_a]:    
-            self.rect.x -= self.speed * self.dt
+            self.rect.x -= int(self.speed)
         elif keys[pygame.K_d]:    
-            self.rect.x += self.speed * self.dt
+            self.rect.x += int(self.speed)
         else:
             pass
         
@@ -155,4 +157,3 @@ class Player(pygame.sprite.Sprite):
         
     def update(self):
         self.input()
-        self.player_ui.update(self.maxhp, self.maxmana, self.maxrads, self.maxexp)
